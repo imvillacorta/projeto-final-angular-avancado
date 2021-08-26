@@ -1,3 +1,20 @@
-body{
-    background: #f7f8f9;
+@font-face {
+    font-family: "Poppins";
+    src: url("../assets/font/Poppins/Poppins-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Poppins-bold";
+    src: url("../assets/font/Poppins/Poppins-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Poppins-italic";
+    src: url("../assets/font/Poppins/Poppins-Italic.ttf");
+}
+
+body {
+    background: $body-page;
+    color: $cinza;
+    font-family: "Poppins";
 }

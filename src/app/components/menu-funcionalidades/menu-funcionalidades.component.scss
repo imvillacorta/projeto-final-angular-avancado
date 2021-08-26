@@ -1,0 +1,21 @@
+@import '../../../scss/variables';
+
+.nav{
+    list-style: none;
+    li {
+        margin-right: 20px;
+        a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: $primary;
+            cursor: pointer;
+            span {
+                margin-left: 5px;
+            }
+            &:hover {
+                color: $primary-contrast;
+            }
+        }
+    }
+}

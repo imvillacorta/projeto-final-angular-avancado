@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import * as Feather from 'feather-icons';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -11,5 +11,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  ngAfterViewInit() {
+    Feather.replace();
+  }
+
 
 }
