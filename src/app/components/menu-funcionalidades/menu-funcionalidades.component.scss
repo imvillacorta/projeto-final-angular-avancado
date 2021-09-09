@@ -1,6 +1,6 @@
-@import '../../../scss/variables';
+@import "../../../scss/variables";
 
-.nav{
+.nav {
     list-style: none;
     li {
         margin-right: 20px;
@@ -17,5 +17,27 @@
                 color: $primary-contrast;
             }
         }
+    }
+    @media (max-width: 1024px) {
+        display: none;
+    }
+}
+
+.nav-mobile {
+    display: none;
+    .container-fluid {
+        a.icon-menu {
+            color: $cinza;
+        }
+        a {
+            display: flex;
+            color: $primary;
+            span {
+                margin-left: 5px;
+            }
+        }
+    }
+    @media (max-width: 1024px) {
+        display: block;
     }
 }
