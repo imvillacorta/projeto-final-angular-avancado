@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { RootComponent } from "./components/root/root.component";
+import { NaoEncontradoComponent } from './pages/erros/nao-encontrado/nao-encontrado.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
             m => m.AutenticacaoModule
           )
       },
+      {
+        path: '**',
+        component: NaoEncontradoComponent
+      }
     ]
   }
 ];

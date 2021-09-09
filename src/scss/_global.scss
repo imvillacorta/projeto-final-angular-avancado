@@ -22,3 +22,11 @@ body {
 .cursor {
     cursor: pointer;
 }
+
+.container-default {
+    background: $branca;
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+    margin: 20px;
+    padding: 15px;
+    border-radius: 16px;
+}
