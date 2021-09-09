@@ -1,19 +1,23 @@
 @import "../../../scss/variables";
 
 .footer {
-    height: 50px;
     background: $branca;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
-    font-family: 'Poppins-bold';
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    font-family: "Poppins-bold";
     font-size: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    
+    padding: 15px 20px;
+
     a {
         color: #ced4da;
-        font-family: 'Poppins';
+        font-family: "Poppins";
         text-decoration: none;
+    }
+    
+    @media (max-width: 500px) {
+        flex-direction: column;
+        text-align: center;
     }
 }
