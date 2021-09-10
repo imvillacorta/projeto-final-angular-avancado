@@ -1,1 +1,74 @@
-<p>auto-cadastro works!</p>
+<div class="content">
+    <h3>Criar Conta</h3>
+</div>
+
+<div class="container-default">
+    <span>
+        Crie sua conta preenchendo todos os campos abaixo.
+    </span>
+    <form [formGroup]="form"
+          (ngSubmit)="onSubmit()"
+          autocomplete="off">
+        <div class="row mt-5">
+            <div class="col-md-6 col-sm-12">
+                <label for="email"
+                       class="form-label">E-mail</label>
+                <input class="form-control form-control-sm"
+                       [class.is-invalid]="email?.invalid && (email?.touched || submitted)"
+                       formControlName="email"
+                       id="email"
+                       placeholder="nome@exemplo.com"
+                       type="email">
+                <div *ngIf="email?.invalid && (email?.touched || submitted)">
+                    <span *ngIf="email?.errors?.required"
+                          class="text-danger">Campo obrigatório</span>
+                    <span *ngIf="email?.errors?.email"
+                          class="text-danger">E-mail inválido</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-md-6 col-sm-12 mb-2">
+                <label for="senha"
+                       class="form-label">Senha</label>
+                <input class="form-control form-control-sm"
+                       [class.is-invalid]="password?.invalid && (password?.touched || submitted)"
+                       formControlName="password"
+                       id="senha"
+                       placeholder="****"
+                       type="password">
+                <div *ngIf="password?.invalid && (password?.touched || submitted)">
+                    <span *ngIf="password?.errors?.required"
+                          class="text-danger">Campo obrigatório</span>
+                    <span *ngIf="password?.errors?.rangeLength"
+                          class="text-danger">Senha deve ter de 6 a 15 dígitos</span>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 ">
+                <label for="confirmaSenha"
+                       class="form-label">Confirme sua Senha</label>
+                <input class="form-control form-control-sm"
+                       [class.is-invalid]="confirmPassword?.invalid && (confirmPassword?.touched || submitted)"
+                       formControlName="confirmPassword"
+                       id="confirmaSenha"
+                       placeholder="****"
+                       type="password">
+                <div *ngIf="confirmPassword?.invalid && (confirmPassword?.touched || submitted)">
+                    <span *ngIf="confirmPassword?.errors?.required"
+                          class="text-danger">Campo obrigatório</span>
+                    <span *ngIf="confirmPassword?.errors?.equalTo"
+                          class="text-danger">Senhas não conferem</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 text-end">
+                <button class="btn btn-primary-custom btn-sm">Cadastrar</button>
+            </div>
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,10 @@
+.btn-primary-custom {
+    color: #fff;
+    background-color: $primary;
+    border-color: $primary;
+    &:hover {
+        color: $branca;
+        background-color: $primary-contrast;
+        border-color: $primary-contrast;
+    }
+}
