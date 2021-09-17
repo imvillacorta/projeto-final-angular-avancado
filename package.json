@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
     "@narik/custom-validators": "^6.0.2",
+    "@popperjs/core": "^2.10.1",
     "bootstrap": "^5.1.0",
     "feather-icons": "^4.28.0",
     "rxjs": "~6.6.0",

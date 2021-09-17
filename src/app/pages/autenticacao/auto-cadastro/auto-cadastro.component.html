@@ -31,7 +31,10 @@
         <div class="row my-2">
             <div class="col-md-6 col-sm-12 mb-2">
                 <label for="senha"
-                       class="form-label">Senha</label>
+                       class="form-label me-2">Senha</label>
+                <label class="lbl-small">(Deve conter entre 6 e 15 caracteres, número, letra maiúscula e
+                    minúscula)</label>
+
                 <input class="form-control form-control-sm"
                        [class.is-invalid]="password?.invalid && (password?.touched || submitted)"
                        formControlName="password"
@@ -39,10 +42,45 @@
                        placeholder="****"
                        type="password">
                 <div *ngIf="password?.invalid && (password?.touched || submitted)">
+
                     <span *ngIf="password?.errors?.required"
                           class="text-danger">Campo obrigatório</span>
-                    <span *ngIf="password?.errors?.rangeLength"
+
+                    <span *ngIf="password?.errors?.rangeLength && password?.errors?.required == null"
                           class="text-danger">Senha deve ter de 6 a 15 dígitos</span>
+
+                    <span *ngIf="password?.errors?.upper && 
+                                 password?.errors?.required == null && 
+                                 password?.errors?.rangeLength == null &&
+                                 password?.errors?.lower == null &&
+                                 password?.errors?.caracters && 
+                                 password?.errors?.number == null"
+                          class="text-danger">É necessário ao menos um carácter em letra maiúscula</span>
+
+                    <span *ngIf="password?.errors?.lower && 
+                                 password?.errors?.required == null &&
+                                 password?.errors?.rangeLength == null &&
+                                 password?.errors?.upper == null &&
+                                 password?.errors?.caracters && 
+                                 password?.errors?.number == null"
+                          class="text-danger">É necessário ao menos um carácter em letra minúscula</span>
+
+                    <span *ngIf="password?.errors?.number && 
+                                 password?.errors?.required == null &&
+                                 password?.errors?.rangeLength == null &&
+                                 password?.errors?.lower == null && 
+                                 password?.errors?.caracters &&
+                                 password?.errors?.upper == null"
+                          class="text-danger">É necessário ao menos um carácter numérico</span>
+
+                    <span *ngIf="password?.errors?.caracters && 
+                                 password?.errors?.required == null &&
+                                 password?.errors?.rangeLength == null &&
+                                 password?.errors?.number == null &&
+                                 password?.errors?.lower == null && 
+                                 password?.errors?.upper == null"
+                          class="text-danger">É necessário ao menos um carácter especial</span>
+
 
                 </div>
             </div>
@@ -58,7 +96,7 @@
                 <div *ngIf="confirmPassword?.invalid && (confirmPassword?.touched || submitted)">
                     <span *ngIf="confirmPassword?.errors?.required"
                           class="text-danger">Campo obrigatório</span>
-                    <span *ngIf="confirmPassword?.errors?.equalTo"
+                    <span *ngIf="confirmPassword?.errors?.equalTo && confirmPassword?.errors?.required == null"
                           class="text-danger">Senhas não conferem</span>
                 </div>
             </div>

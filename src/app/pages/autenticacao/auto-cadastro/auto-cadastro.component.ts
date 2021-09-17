@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { CustomValidators } from '@narik/custom-validators';
 
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
+import { SenhaValidator } from 'src/app/utils/validators/senha.validator';
 
 import { Usuario } from "../../../models/usuario.interface";
 
@@ -25,16 +26,28 @@ export class AutoCadastroComponent implements OnInit {
 
   ngOnInit(): void {
 
-  
+    let senha = new FormControl('',
+      [
+        Validators.required,
+        SenhaValidator.upper,
+        SenhaValidator.lower,
+        SenhaValidator.number,
+        SenhaValidator.caracters,
+        CustomValidators.rangeLength([6, 15])
+      ]);
 
-    let senha = new FormControl('', [Validators.required, CustomValidators.rangeLength([6, 15])]);
-    let confirmaSenha = new FormControl('', [Validators.required, CustomValidators.equalTo(senha)]);
+    let confirmaSenha = new FormControl('',
+      [
+        Validators.required,
+        CustomValidators.equalTo(senha)
+      ]);
 
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: senha,
       confirmPassword: confirmaSenha
     });
+
   }
 
   onSubmit() {
@@ -45,7 +58,12 @@ export class AutoCadastroComponent implements OnInit {
       this.usuario = Object.assign({}, this.usuario, this.form.value);
       console.log('usuario', this.usuario);
 
-      this.autenticacaoService.cadastrarUsuario(this.usuario);
+      this.autenticacaoService
+        .cadastrarUsuario(this.usuario)
+        .subscribe(resp => {
+          console.log(resp);
+          this.submitted = false;
+        })
     }
   }
 
