@@ -8,6 +8,9 @@ import { SenhaValidator } from 'src/app/utils/validators/senha.validator';
 
 import { Usuario } from "../../../models/usuario.interface";
 
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-auto-cadastro',
   templateUrl: './auto-cadastro.component.html',
@@ -21,6 +24,7 @@ export class AutoCadastroComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private router: Router,
     private autenticacaoService: AutenticacaoService
   ) { }
 
@@ -56,13 +60,25 @@ export class AutoCadastroComponent implements OnInit {
 
     if (this.form.status == 'VALID') {
       this.usuario = Object.assign({}, this.usuario, this.form.value);
-      console.log('usuario', this.usuario);
 
       this.autenticacaoService
         .cadastrarUsuario(this.usuario)
         .subscribe(resp => {
-          console.log(resp);
-          this.submitted = false;
+          Swal.fire({
+            title: 'Conta',
+            text: "Sua conta foi gerada com sucesso.",
+            icon: 'success',
+            confirmButtonText: 'ENTENDI',
+            confirmButtonColor: '#25bcd2',
+            allowOutsideClick: false
+          }).then((result) => {
+            if (result.dismiss) {
+            } else {
+              this.submitted = false;
+              this.form.reset();
+              this.router.navigate(['/autenticacao/login']);
+            }
+          });
         })
     }
   }

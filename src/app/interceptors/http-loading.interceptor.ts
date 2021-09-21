@@ -1,16 +1,17 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
 import { LoaderService } from '../services/loader.service';
-import { finalize } from 'rxjs/operators';
-
-
+import { catchError, delay, finalize, map, retryWhen, tap } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 @Injectable()
 
 export class HttpLoadingInterceptor implements HttpInterceptor {
 
     constructor(
-        public loaderService: LoaderService
+        public loaderService: LoaderService,
+        private router: Router
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -18,6 +19,59 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
         this.loaderService.isLoading.next(true);
 
         return next.handle(req).pipe(
+
+            //SOLICITAÇÃO REFEITA EM CASO DE ERRO
+            retryWhen(err => {
+                let retries = 1;
+                return err.pipe(
+                    delay(1000),
+                    tap(() => {
+                        console.log('Erro na chamada, tentativa ' + retries + ' de 3');
+                    }),
+                    map(error => {
+                        if (retries++ === 3) {
+                            throw error;
+                        }
+                        return error;
+                    })
+                )
+            }),
+
+            // ERROS RETORNADOS DA REQUISIÇÃO
+            catchError((error: HttpErrorResponse) => {
+                if (error instanceof HttpErrorResponse) {
+                    //ERROS EM SCRIPTS OU ARQUIVOS
+                    if (error.error instanceof ErrorEvent) {
+                        console.log('error event', ErrorEvent);
+                    }
+                    else {
+                        switch (error.status) {
+                            case 401:      //FALHA NA AUTENTICAÇÃO
+                                this.router.navigate([
+                                    '/autenticacao/login'
+                                ])
+                                break;
+                            case 404:     //URL NÃO ENCONTRADA
+                                this.router.navigate([
+                                    '/nao-encontrado'
+                                ])
+                                break;
+                            default:
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops!',
+                                    text: error.error.errors,
+                                    confirmButtonText: 'ENTENDI',
+                                    confirmButtonColor: '#25bcd2',
+                                    allowOutsideClick: false
+                                });
+                        }
+                    }
+                }
+
+                return throwError(error);
+            }),
+            //FIM DA REQUISIÇÃO
             finalize(
                 () => {
                     this.loaderService.isLoading.next(false);

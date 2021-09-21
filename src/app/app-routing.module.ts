@@ -44,6 +44,10 @@ const routes: Routes = [
           )
       },
       {
+        path: 'nao-encontrado',
+        component: NaoEncontradoComponent
+      },
+      {
         path: '**',
         component: NaoEncontradoComponent
       }
