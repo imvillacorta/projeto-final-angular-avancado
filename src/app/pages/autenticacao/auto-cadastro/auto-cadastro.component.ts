@@ -56,7 +56,6 @@ export class AutoCadastroComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.form);
 
     if (this.form.status == 'VALID') {
       this.usuario = Object.assign({}, this.usuario, this.form.value);
@@ -72,15 +71,23 @@ export class AutoCadastroComponent implements OnInit {
             confirmButtonColor: '#25bcd2',
             allowOutsideClick: false
           }).then((result) => {
-            if (result.dismiss) {
-            } else {
-              this.submitted = false;
-              this.form.reset();
-              this.router.navigate(['/autenticacao/login']);
-            }
+            this.gravarDadosLocalStorage(resp);
           });
         })
     }
+  }
+
+  gravarDadosLocalStorage(resp: any) {
+    const dados = resp.data;
+    localStorage.setItem('token', dados.accessToken);
+    localStorage.setItem('user', JSON.stringify(dados.userToken));
+    this.limparFluxo();
+  }
+
+  limparFluxo() {
+    this.submitted = false;
+    this.form.reset();
+    this.router.navigate(['/autenticacao/login']);
   }
 
   get email() {
