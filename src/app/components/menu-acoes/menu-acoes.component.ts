@@ -8,11 +8,36 @@ import { Router } from '@angular/router';
 })
 export class MenuAcoesComponent implements OnInit {
 
+  token: any;
+  usuario: any;
+  email: any;
+
   constructor(
     private router: Router
   ) { }
 
   ngOnInit(): void {
+  }
+
+  verificaLogin(): boolean {
+    this.token = localStorage.getItem('token');
+    this.usuario = localStorage.getItem('user');
+
+    if (this.usuario) {
+      this.usuario = JSON.parse(this.usuario);
+      this.email = this.usuario.email;
+    }
+
+    return this.token !== null
+
+  }
+
+  sair() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.router.navigate([
+      '/autenticacao/login'
+    ]);
   }
 
   login() {

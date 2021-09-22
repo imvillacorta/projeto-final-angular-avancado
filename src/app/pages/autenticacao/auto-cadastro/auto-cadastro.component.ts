@@ -87,7 +87,7 @@ export class AutoCadastroComponent implements OnInit {
   limparFluxo() {
     this.submitted = false;
     this.form.reset();
-    this.router.navigate(['/autenticacao/login']);
+    this.router.navigate(['/home']);
   }
 
   get email() {

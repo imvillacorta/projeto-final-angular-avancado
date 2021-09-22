@@ -1,4 +1,14 @@
-<div class="btn-acoes">
-    <button class="btn btn-primary btn-sm" (click)="login()">Entrar</button>
-    <button class="btn btn-success btn-sm" (click)="autoCadastro()">Criar Conta</button>
+<div class="btn-acoes"
+     [ngSwitch]="verificaLogin()">
+    <div *ngSwitchCase="false">
+        <button class="btn btn-primary btn-sm"
+                (click)="login()">Entrar</button>
+        <button class="btn btn-success btn-sm"
+                (click)="autoCadastro()">Criar Conta</button>
+    </div>
+    <div *ngSwitchCase="true">
+        <span>{{ email }}</span>
+        <button class="btn btn-danger btn-sm"
+                (click)="sair()">Sair</button>
+    </div>
 </div>
