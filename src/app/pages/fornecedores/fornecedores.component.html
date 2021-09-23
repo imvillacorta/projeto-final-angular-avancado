@@ -1,1 +1,58 @@
-<p>fornecedores works!</p>
+<div class="content d-flex justify-content-between">
+
+    <h3>Consultar Fornecedores</h3>
+    <button class="btn btn-primary-custom btn-sm">
+        <i data-feather="plus"
+           class="icon"></i>
+        Cadastrar
+    </button>
+</div>
+
+<div class="container-default">
+    <span>
+        Gerencie os fornecedores cadastrados.
+    </span>
+
+    <div class="mt-5">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Documento</th>
+                    <th>Situação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let fornecedor of fornecedores">
+                    <td>
+                        {{ fornecedor.nome }}
+                    </td>
+                    <td>
+                        {{ fornecedor.documento }}
+                    </td>
+                    <td>
+                        {{ fornecedor.ativo ? 'Ativo' : 'Inativo' }}
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm"
+                                title="Visualizar">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm mx-2"
+                                title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm"
+                                title="Excluir">
+                            <i class="fas fa-trash-alt"></i>
+                            <i data-feather="trash-2"
+                               class="icon"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

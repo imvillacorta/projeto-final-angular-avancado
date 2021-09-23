@@ -22,7 +22,7 @@ export class AuthOffGuard implements CanActivate {
     }
 
     //SE NÃO ESTIVER LOGADO
-    this.router.navigate(['/home']);
+    this.router.navigate(['/autenticacao/login']);
     return false;
   }
 
