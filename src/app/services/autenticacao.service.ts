@@ -21,7 +21,9 @@ export class AutenticacaoService extends BaseService {
 
 
   login(usuario: Usuario) {
-
+    return this.http.post<Usuario>(
+      this.urlApi + 'entrar', usuario, this.obterHeaderJson()
+    );
   }
 
 }

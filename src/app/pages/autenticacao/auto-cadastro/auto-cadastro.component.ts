@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
@@ -9,7 +10,7 @@ import { SenhaValidator } from 'src/app/utils/validators/senha.validator';
 import { Usuario } from "../../../models/usuario.interface";
 
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-auto-cadastro',

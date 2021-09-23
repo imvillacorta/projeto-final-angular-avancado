@@ -26,7 +26,7 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
                 return err.pipe(
                     delay(1000),
                     tap(() => {
-                        console.log('Erro na chamada, tentativa ' + retries + ' de 3');
+                        console.error('Erro, tentativa ' + retries + ' de 3');
                     }),
                     map(error => {
                         if (retries++ === 3) {
