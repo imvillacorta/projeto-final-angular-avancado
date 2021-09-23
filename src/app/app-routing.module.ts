@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { RootComponent } from "./components/root/root.component";
 import { NaoEncontradoComponent } from './pages/erros/nao-encontrado/nao-encontrado.component';
 
+import { AuthGuard } from './guards/auth.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -38,6 +40,7 @@ const routes: Routes = [
       },
       {
         path: 'autenticacao',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./pages/autenticacao/autenticacao.module').then(
             m => m.AutenticacaoModule
