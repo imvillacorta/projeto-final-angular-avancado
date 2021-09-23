@@ -5,6 +5,7 @@ import { RootComponent } from "./components/root/root.component";
 import { NaoEncontradoComponent } from './pages/erros/nao-encontrado/nao-encontrado.component';
 
 import { AuthGuard } from './guards/auth.guard';
+import { AuthOffGuard } from './guards/auth-off.guard';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'fornecedores',
+        canActivate: [AuthOffGuard],
         loadChildren: () =>
           import('./pages/fornecedores/fornecedores.module').then(
             m => m.FornecedoresModule
@@ -33,6 +35,7 @@ const routes: Routes = [
       },
       {
         path: 'produtos',
+        canActivate: [AuthOffGuard],
         loadChildren: () =>
           import('./pages/produtos/produtos.module').then(
             m => m.ProdutosModule

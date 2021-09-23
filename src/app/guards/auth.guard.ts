@@ -16,12 +16,14 @@ export class AuthGuard implements CanActivate {
         state: RouterStateSnapshot
     ): Observable<boolean> | boolean {
         let usuarioLogado = localStorage.getItem('token');
-        //SE USUARIO ESTIVER LOGADO ELE TEM ACESSO AS PAGINAS
+        //SE USUARIO ESTIVER LOGADO ACESSOS AO LOGIN E AUTO CADASTRO NÃO SERA PERMITIDA
         if (usuarioLogado) {
             this.router.navigate(['/home']);
         }
         
         return true;
     }
+
+    
 
 }
