@@ -15,7 +15,8 @@ export class FornecedoresComponent implements OnInit {
   fornecedores: any = [];
 
   constructor(
-    private fornecedoresService: FornecedoresService
+    private fornecedoresService: FornecedoresService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -27,7 +28,7 @@ export class FornecedoresComponent implements OnInit {
       this.obterFornecedores();
       Feather.replace();
     }, 0);
-    
+
   }
 
   obterFornecedores() {
@@ -37,6 +38,18 @@ export class FornecedoresComponent implements OnInit {
         this.fornecedores = resp;
         console.log(resp);
       });
+  }
+
+  editar(id: any) {
+    this.router.navigate([
+      `/fornecedores/editar/${id}`,
+    ]);
+  }
+
+  visualizar(id: any) {
+    this.router.navigate([
+      `/fornecedores/visualizar/${id}`,
+    ]);
   }
 
 }

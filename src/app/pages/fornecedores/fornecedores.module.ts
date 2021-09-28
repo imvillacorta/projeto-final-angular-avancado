@@ -5,15 +5,19 @@ import { FornecedoresComponent } from './fornecedores.component';
 import { FornecedoresRoutingModule } from "./fornecedores-routing.module";
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpLoadingInterceptor } from 'src/app/interceptors/http-loading.interceptor';
+import { FornecedorComponent } from './fornecedor/fornecedor.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
-    FornecedoresComponent
+    FornecedoresComponent,
+    FornecedorComponent
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     FornecedoresRoutingModule
   ],
   providers: [

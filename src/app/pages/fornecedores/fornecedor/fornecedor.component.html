@@ -1,0 +1,239 @@
+<div class="content">
+    <h3>
+        {{
+        isReadOnly ? 'Visualizar Fornecedor' :
+        isEdit ? 'Editar Fornecedor' : 'Cadastrar Fornecedor'
+        }}
+    </h3>
+</div>
+
+<form [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      autocomplete="off">
+    <div class="container-default">
+        <span>
+            {{
+            isReadOnly ? 'Detalhes do fornecedor.' :
+            isEdit ? 'Altere os dados do fornecedor nos campos abaixo.' : 'Preencha os campos abaixo para cadastrar um
+            fornecedor.'
+            }}
+        </span>
+
+        <div class="mt-5">
+            <div class="row">
+                <div class="col-md-4 col-sm-12 mb-2">
+                    <label for="nome"
+                           class="form-label">Nome</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="nome?.invalid && (nome?.touched || submitted)"
+                           formControlName="nome"
+                           id="nome"
+                           placeholder="Ex: Cadeiras Cherry"
+                           type="nome">
+                    <div *ngIf="nome?.invalid && (nome?.touched || submitted)">
+                        <span *ngIf="nome?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+
+
+                <div class="col-md-2 col-sm-12 mb-2">
+                    <label for="senha"
+                           class="form-label me-2">Tipo de Pessoa</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="tipoFornecedor"
+                                   id="pessoaFisica">
+                            <label class="form-check-label"
+                                   for="pessoaFisica">
+                                Física
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="tipoFornecedor"
+                                   id="pessoaJuridica">
+                            <label class="form-check-label"
+                                   for="pessoaJuridica">
+                                Jurídica
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-12 mb-2">
+                    <label for="documento"
+                           class="form-label">Documento</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="documento?.invalid && (documento?.touched || submitted)"
+                           formControlName="documento"
+                           id="documento"
+                           placeholder="documento@exemplo.com"
+                           type="documento">
+                    <div *ngIf="documento?.invalid && (documento?.touched || submitted)">
+                        <span *ngIf="documento?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-12 mb-2">
+                    <label for="senha"
+                           class="form-label me-2">Ativar Fornecedor?</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="ativo"
+                                   id="sim">
+                            <label class="form-check-label"
+                                   for="sim">
+                                Sim
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="ativo"
+                                   id="nao">
+                            <label class="form-check-label"
+                                   for="nao">
+                                Não
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="mt-5 container-default">
+        <span>
+            Informe o endereço do fornecedor.
+        </span>
+        <div class="mt-5">
+            <div class="row">
+                <div class="col-md-2 col-sm-12 mb-2">
+                    <label for="cep"
+                           class="form-label">CEP</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="cep?.invalid && (cep?.touched || submitted)"
+                           formControlName="cep"
+                           id="cep"
+                           placeholder="Ex: 00000-000"
+                           type="cep">
+                    <div *ngIf="cep?.invalid && (cep?.touched || submitted)">
+                        <span *ngIf="cep?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-12 mb-2">
+                    <label for="logradouro"
+                           class="form-label">Logradouro</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="logradouro?.invalid && (logradouro?.touched || submitted)"
+                           formControlName="logradouro"
+                           id="logradouro"
+                           placeholder="Ex: Cadeiras Cherry"
+                           type="logradouro">
+                    <div *ngIf="logradouro?.invalid && (logradouro?.touched || submitted)">
+                        <span *ngIf="logradouro?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-12 mb-2">
+                    <label for="numero"
+                           class="form-label">Número</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="numero?.invalid && (numero?.touched || submitted)"
+                           formControlName="numero"
+                           id="numero"
+                           placeholder="Ex: 23"
+                           type="numero">
+                    <div *ngIf="numero?.invalid && (numero?.touched || submitted)">
+                        <span *ngIf="numero?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-12 mb-2">
+                    <label for="complemento"
+                           class="form-label">Complemento</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="complemento?.invalid && (complemento?.touched || submitted)"
+                           formControlName="complemento"
+                           id="complemento"
+                           placeholder="Ex: Casa | AP 64"
+                           type="complemento">
+                    <div *ngIf="complemento?.invalid && (complemento?.touched || submitted)">
+                        <span *ngIf="complemento?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-12 mb-2">
+                    <label for="bairro"
+                           class="form-label">Bairro</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="bairro?.invalid && (bairro?.touched || submitted)"
+                           formControlName="bairro"
+                           id="bairro"
+                           placeholder="Ex: Vila dos Jogadores"
+                           type="bairro">
+                    <div *ngIf="bairro?.invalid && (bairro?.touched || submitted)">
+                        <span *ngIf="bairro?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-12 mb-2">
+                    <label for="cidade"
+                           class="form-label">Cidade</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="cidade?.invalid && (cidade?.touched || submitted)"
+                           formControlName="cidade"
+                           id="cidade"
+                           placeholder="Ex: São Paulo"
+                           type="cidade">
+                    <div *ngIf="cidade?.invalid && (cidade?.touched || submitted)">
+                        <span *ngIf="cidade?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-12 mb-2">
+                    <label for="estado"
+                           class="form-label">Estado</label>
+                    <select class="form-select form-select-sm">
+                        <option selected
+                                disabled>Selecione</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <div *ngIf="estado?.invalid && (estado?.touched || submitted)">
+                        <span *ngIf="estado?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-12 col-sm-12 text-end">
+                    <button class="btn btn-primary-custom btn-sm me-2" *ngIf="!isReadOnly">Confirmar</button>
+                    <button class="btn btn-secondary btn-sm"
+                            routerLink="/fornecedores">Voltar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

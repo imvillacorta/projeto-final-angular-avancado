@@ -1,7 +1,8 @@
 <div class="content d-flex justify-content-between">
 
     <h3>Consultar Fornecedores</h3>
-    <button class="btn btn-primary-custom btn-sm">
+    <button class="btn btn-primary-custom btn-sm"
+            routerLink="adicionar">
         <i data-feather="plus"
            class="icon"></i>
         Cadastrar
@@ -36,10 +37,12 @@
                     </td>
                     <td>
                         <button class="btn btn-secondary btn-sm"
+                                (click)="visualizar(fornecedor.id)"
                                 title="Visualizar">
                             <i class="fas fa-search"></i>
                         </button>
                         <button class="btn btn-primary btn-sm mx-2"
+                                (click)="editar(fornecedor.id)"
                                 title="Editar">
                             <i class="fas fa-edit"></i>
                         </button>

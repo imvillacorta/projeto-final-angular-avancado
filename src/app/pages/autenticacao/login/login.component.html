@@ -17,7 +17,7 @@
                        [class.is-invalid]="email?.invalid && (email?.touched || submitted)"
                        formControlName="email"
                        id="email"
-                       placeholder="nome@exemplo.com"
+                       placeholder="Ex: nome@exemplo.com"
                        type="email">
                 <div *ngIf="email?.invalid && (email?.touched || submitted)">
                     <span *ngIf="email?.errors?.required"
@@ -36,7 +36,7 @@
                        [class.is-invalid]="password?.invalid && (password?.touched || submitted)"
                        formControlName="password"
                        id="senha"
-                       placeholder="****"
+                       placeholder="Ex: Senha@123"
                        type="password">
                 <div *ngIf="password?.invalid && (password?.touched || submitted)">
                     <span *ngIf="password?.errors?.required"

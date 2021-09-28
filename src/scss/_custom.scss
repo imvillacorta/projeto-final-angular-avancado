@@ -1,3 +1,5 @@
+// BOTÕES
+
 .btn-primary-custom {
     color: #fff;
     background-color: $primary;
@@ -7,4 +9,11 @@
         background-color: $primary-contrast;
         border-color: $primary-contrast;
     }
+}
+
+// RADIO BUTTON
+
+.form-check-input:checked {
+    background-color: $primary;
+    border-color: $primary;
 }

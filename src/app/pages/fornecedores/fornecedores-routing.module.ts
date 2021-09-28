@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { FornecedoresComponent } from './fornecedores.component';
+import { FornecedorComponent } from "./fornecedor/fornecedor.component";
 
 const routes: Routes = [
     {
@@ -19,11 +20,18 @@ const routes: Routes = [
                         path: '',
                         component: FornecedoresComponent,
                     },
-                    // {
-                    //     path: 'adicionar',
-                    //     component: PerfilAcessoComponent,
-                    //     canActivate: [AuthGuard]
-                    // }
+                    {
+                        path: 'adicionar',
+                        component: FornecedorComponent
+                    },
+                    {
+                        path: 'editar/:id',
+                        component: FornecedorComponent
+                    },
+                    {
+                        path: 'visualizar/:id',
+                        component: FornecedorComponent
+                    }
                 ]
             },
         ]
