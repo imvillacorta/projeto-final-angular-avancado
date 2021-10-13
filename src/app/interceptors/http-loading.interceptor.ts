@@ -57,10 +57,19 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
                                 ])
                                 break;
                             default:
+                                let textoErro = '';
+
+                                if (error.error.errors) {
+                                    textoErro = error.error.errors;
+                                }
+                                else {
+                                    textoErro = 'Ocorreu um erro inesperado';
+                                }
+                                
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Ops!',
-                                    text: error.error.errors,
+                                    text: textoErro,
                                     confirmButtonText: 'ENTENDI',
                                     confirmButtonColor: '#25bcd2',
                                     allowOutsideClick: false

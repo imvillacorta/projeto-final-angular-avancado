@@ -29,7 +29,7 @@
                            formControlName="nome"
                            id="nome"
                            placeholder="Ex: Cadeiras Cherry"
-                           type="nome">
+                           type="text">
                     <div *ngIf="nome?.invalid && (nome?.touched || submitted)">
                         <span *ngIf="nome?.errors?.required"
                               class="text-danger">Campo obrigatório</span>
@@ -38,14 +38,17 @@
 
 
                 <div class="col-md-2 col-sm-12 mb-2">
-                    <label for="senha"
-                           class="form-label me-2">Tipo de Pessoa</label>
+                    <label class="form-label me-2">Tipo de Pessoa</label>
                     <div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input"
+                                   [class.is-invalid]="tipoFornecedor?.invalid && submitted"
+                                   (click)="trocarValidacaoDocumento()"
+                                   formControlName="tipoFornecedor"
                                    type="radio"
                                    name="tipoFornecedor"
-                                   id="pessoaFisica">
+                                   id="pessoaFisica"
+                                   value="1">
                             <label class="form-check-label"
                                    for="pessoaFisica">
                                 Física
@@ -53,41 +56,58 @@
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input"
+                                   [class.is-invalid]="tipoFornecedor?.invalid && submitted"
+                                   (click)="trocarValidacaoDocumento()"
+                                   formControlName="tipoFornecedor"
                                    type="radio"
                                    name="tipoFornecedor"
-                                   id="pessoaJuridica">
+                                   id="pessoaJuridica"
+                                   value="2">
                             <label class="form-check-label"
                                    for="pessoaJuridica">
                                 Jurídica
                             </label>
+                        </div>
+                        <div *ngIf="tipoFornecedor?.invalid && submitted">
+                            <span *ngIf="tipoFornecedor?.errors?.required"
+                                  class="text-danger">Campo obrigatório</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4 col-sm-12 mb-2">
                     <label for="documento"
-                           class="form-label">Documento</label>
+                           class="form-label">
+                        {{ tipoFornecedor.value == '1' ? 'CPF' : 'CNPJ' }}
+                    </label>
                     <input class="form-control form-control-sm"
                            [class.is-invalid]="documento?.invalid && (documento?.touched || submitted)"
                            formControlName="documento"
                            id="documento"
-                           placeholder="documento@exemplo.com"
-                           type="documento">
+                           placeholder="{{ tipoFornecedor.value == '1' ? '000.000.000-00' : '00.000.000/0000-00' }}"
+                           mask="{{ tipoFornecedor.value == '1' ? '000.000.000-00' : '00.000.000/0000-00' }}"
+                           type="text">
                     <div *ngIf="documento?.invalid && (documento?.touched || submitted)">
                         <span *ngIf="documento?.errors?.required"
                               class="text-danger">Campo obrigatório</span>
+                        <span *ngIf="documento?.errors?.cpf"
+                              class="text-danger">CPF inválido</span>
+                        <span *ngIf="documento?.errors?.cnpj"
+                              class="text-danger">CNPJ inválido</span>
                     </div>
                 </div>
 
                 <div class="col-md-2 col-sm-12 mb-2">
-                    <label for="senha"
-                           class="form-label me-2">Ativar Fornecedor?</label>
+                    <label class="form-label me-2">Ativar Fornecedor?</label>
                     <div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input"
+                                   [class.is-invalid]="ativo?.invalid && submitted"
+                                   formControlName="ativo"
                                    type="radio"
                                    name="ativo"
-                                   id="sim">
+                                   id="sim"
+                                   [value]="true">
                             <label class="form-check-label"
                                    for="sim">
                                 Sim
@@ -95,40 +115,49 @@
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input"
+                                   [class.is-invalid]="ativo?.invalid && submitted"
+                                   formControlName="ativo"
                                    type="radio"
                                    name="ativo"
-                                   id="nao">
+                                   id="nao"
+                                   [value]="false">
                             <label class="form-check-label"
                                    for="nao">
                                 Não
                             </label>
                         </div>
+                        <div *ngIf="ativo?.invalid && submitted">
+                            <span *ngIf="ativo?.errors?.required"
+                                  class="text-danger">Campo obrigatório</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
     <div class="mt-5 container-default">
         <span>
             Informe o endereço do fornecedor.
         </span>
-        <div class="mt-5">
+        <div class="mt-5"
+             formGroupName="endereco">
             <div class="row">
                 <div class="col-md-2 col-sm-12 mb-2">
                     <label for="cep"
                            class="form-label">CEP</label>
                     <input class="form-control form-control-sm"
                            [class.is-invalid]="cep?.invalid && (cep?.touched || submitted)"
+                           (blur)="buscarCep()"
                            formControlName="cep"
                            id="cep"
                            placeholder="Ex: 00000-000"
-                           type="cep">
+                           mask="00000-000"
+                           type="text">
                     <div *ngIf="cep?.invalid && (cep?.touched || submitted)">
                         <span *ngIf="cep?.errors?.required"
                               class="text-danger">Campo obrigatório</span>
+                        <span *ngIf="cep?.errors?.mask"
+                              class="text-danger">CEP inválido</span>
                     </div>
                 </div>
 
@@ -140,7 +169,7 @@
                            formControlName="logradouro"
                            id="logradouro"
                            placeholder="Ex: Cadeiras Cherry"
-                           type="logradouro">
+                           type="text">
                     <div *ngIf="logradouro?.invalid && (logradouro?.touched || submitted)">
                         <span *ngIf="logradouro?.errors?.required"
                               class="text-danger">Campo obrigatório</span>
@@ -154,8 +183,9 @@
                            [class.is-invalid]="numero?.invalid && (numero?.touched || submitted)"
                            formControlName="numero"
                            id="numero"
+                           number
                            placeholder="Ex: 23"
-                           type="numero">
+                           type="text">
                     <div *ngIf="numero?.invalid && (numero?.touched || submitted)">
                         <span *ngIf="numero?.errors?.required"
                               class="text-danger">Campo obrigatório</span>
@@ -170,7 +200,7 @@
                            formControlName="complemento"
                            id="complemento"
                            placeholder="Ex: Casa | AP 64"
-                           type="complemento">
+                           type="text">
                     <div *ngIf="complemento?.invalid && (complemento?.touched || submitted)">
                         <span *ngIf="complemento?.errors?.required"
                               class="text-danger">Campo obrigatório</span>
@@ -187,7 +217,7 @@
                            formControlName="bairro"
                            id="bairro"
                            placeholder="Ex: Vila dos Jogadores"
-                           type="bairro">
+                           type="text">
                     <div *ngIf="bairro?.invalid && (bairro?.touched || submitted)">
                         <span *ngIf="bairro?.errors?.required"
                               class="text-danger">Campo obrigatório</span>
@@ -202,7 +232,7 @@
                            formControlName="cidade"
                            id="cidade"
                            placeholder="Ex: São Paulo"
-                           type="cidade">
+                           type="text">
                     <div *ngIf="cidade?.invalid && (cidade?.touched || submitted)">
                         <span *ngIf="cidade?.errors?.required"
                               class="text-danger">Campo obrigatório</span>
@@ -212,7 +242,9 @@
                 <div class="col-md-4 col-sm-12 mb-2">
                     <label for="estado"
                            class="form-label">Estado</label>
-                    <select class="form-select form-select-sm">
+                    <select class="form-select form-select-sm"
+                            [class.is-invalid]="estado?.invalid && (estado?.touched || submitted)"
+                            formControlName="estado">
                         <option selected
                                 disabled>Selecione</option>
                         <option value="1">One</option>
@@ -228,7 +260,8 @@
 
             <div class="row mt-2">
                 <div class="col-md-12 col-sm-12 text-end">
-                    <button class="btn btn-primary-custom btn-sm me-2" *ngIf="!isReadOnly">Confirmar</button>
+                    <button class="btn btn-primary-custom btn-sm me-2"
+                            *ngIf="!isReadOnly">Confirmar</button>
                     <button class="btn btn-secondary btn-sm"
                             routerLink="/fornecedores">Voltar</button>
                 </div>

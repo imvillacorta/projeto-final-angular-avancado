@@ -7,9 +7,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpLoadingInterceptor } from 'src/app/interceptors/http-loading.interceptor';
 import { FornecedorComponent } from './fornecedor/fornecedor.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask';
 
-
-
+import { NgBrazil } from 'ng-brazil';
 @NgModule({
   declarations: [
     FornecedoresComponent,
@@ -18,7 +18,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FornecedoresRoutingModule
+    FornecedoresRoutingModule,
+    NgBrazil,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     {

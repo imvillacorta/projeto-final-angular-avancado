@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  urlApi : 'https://devio.fabrica.dev.br/api/v1/'
+  urlApi: 'https://devio.fabrica.dev.br/api/v1/',
+  urlCep: '//viacep.com.br/ws'
 };
 
 /*
