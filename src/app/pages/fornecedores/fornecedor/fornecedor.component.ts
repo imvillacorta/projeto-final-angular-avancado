@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgBrazilValidators } from 'ng-brazil';
+import { EstadoBr } from 'src/app/models/estado-br.interface';
 import { CepService } from 'src/app/services/cep.service';
+import { EstadosService } from 'src/app/services/estados.service';
 
 import Swal from 'sweetalert2';
 @Component({
@@ -11,7 +13,7 @@ import Swal from 'sweetalert2';
   templateUrl: './fornecedor.component.html',
   styleUrls: ['./fornecedor.component.scss']
 })
-export class FornecedorComponent implements OnInit {
+export class FornecedorComponent implements OnInit, AfterViewInit {
 
   idFornecedor: any = '';
   isEdit: boolean = false;
@@ -19,21 +21,26 @@ export class FornecedorComponent implements OnInit {
   form: any = FormGroup;
   endereco: any = FormGroup;
   submitted: boolean = false;
+  estados: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
     public router: Router,
     private route: ActivatedRoute,
-    private cepService: CepService
-
+    private cepService: CepService,
+    private estadosService: EstadosService
   ) { }
 
   ngOnInit(): void {
 
     this.verificarAcao();
     this.montarForm();
+  }
 
-
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.obterEstados();
+    }, 0);
   }
 
   montarForm() {
@@ -54,6 +61,7 @@ export class FornecedorComponent implements OnInit {
     });
 
     this.configurarFornecedor();
+
   }
 
   configurarFornecedor() {
@@ -61,6 +69,13 @@ export class FornecedorComponent implements OnInit {
       tipoFornecedor: '1',
       ativo: true
     })
+  }
+
+  obterEstados() {
+    this.estadosService.obterEstadosBr()
+      .subscribe((resp: EstadoBr) => {
+        this.estados = resp;
+      })
   }
 
   obterId() {
@@ -109,7 +124,7 @@ export class FornecedorComponent implements OnInit {
   }
 
   buscarCep() {
-  console.log(this.form);
+    console.log(this.form);
     if (this.form.controls.endereco.controls.cep.status == 'VALID') {
       this.cepService
         .obterDadosCep(this.form.value.endereco.cep)
@@ -127,14 +142,32 @@ export class FornecedorComponent implements OnInit {
           }
 
           else {
-            // this.dadosCep = resp;
-            // this.populaCamposEndereco();
-
-            console.log(resp);
+            this.populaCamposEndereco(resp);
           }
-        }, err => {
-          console.error();
-        })
+        });
+    }
+  }
+
+  populaCamposEndereco(resp: any) {
+    this.form.patchValue({
+      endereco: {
+        logradouro: resp.logradouro,
+        bairro: resp.bairro,
+        cidade: resp.localidade,
+        estado: resp.uf
+      }
+
+    })
+  }
+
+  onlynumber(evt: any) {
+    var theEvent = evt || window.event;
+    var key = theEvent.keyCode || theEvent.which;
+    key = String.fromCharCode(key);
+    var regex = /^[0-9]+$/;
+    if (!regex.test(key)) {
+      theEvent.returnValue = false;
+      if (theEvent.preventDefault) theEvent.preventDefault();
     }
   }
 
