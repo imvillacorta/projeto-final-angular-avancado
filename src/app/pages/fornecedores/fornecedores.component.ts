@@ -36,7 +36,6 @@ export class FornecedoresComponent implements OnInit {
       .obterTodos()
       .subscribe(resp => {
         this.fornecedores = resp;
-        console.log(resp);
       });
   }
 

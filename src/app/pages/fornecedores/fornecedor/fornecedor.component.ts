@@ -4,8 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgBrazilValidators } from 'ng-brazil';
 import { EstadoBr } from 'src/app/models/estado-br.interface';
+import { Fornecedor } from 'src/app/models/fornecedor.interface';
 import { CepService } from 'src/app/services/cep.service';
 import { EstadosService } from 'src/app/services/estados.service';
+import { FornecedoresService } from 'src/app/services/fornecedores.service';
 
 import Swal from 'sweetalert2';
 @Component({
@@ -22,11 +24,13 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
   endereco: any = FormGroup;
   submitted: boolean = false;
   estados: any = [];
+  fornecedor!: Fornecedor;
 
   constructor(
     private formBuilder: FormBuilder,
     public router: Router,
     private route: ActivatedRoute,
+    private fornecedoresService: FornecedoresService,
     private cepService: CepService,
     private estadosService: EstadosService
   ) { }
@@ -35,6 +39,7 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
 
     this.verificarAcao();
     this.montarForm();
+
   }
 
   ngAfterViewInit() {
@@ -66,7 +71,7 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
 
   configurarFornecedor() {
     this.form.patchValue({
-      tipoFornecedor: '1',
+      tipoFornecedor: 1,
       ativo: true
     })
   }
@@ -106,14 +111,11 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
     this.form.controls.documento.clearValidators();
 
     if (tipoFornecedorSelecionado == pessoaFisica) {
-      console.log('pf');
-
       this.form.controls.documento.setValidators([
         Validators.required, NgBrazilValidators.cpf
       ]);
     }
     else if (tipoFornecedorSelecionado == pessoaJuridica) {
-      console.log('pj');
       this.form.controls.documento.setValidators([
         Validators.required, NgBrazilValidators.cnpj
       ]);
@@ -124,7 +126,6 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
   }
 
   buscarCep() {
-    console.log(this.form);
     if (this.form.controls.endereco.controls.cep.status == 'VALID') {
       this.cepService
         .obterDadosCep(this.form.value.endereco.cep)
@@ -173,7 +174,27 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.form);
+
+    if (this.form.status == 'VALID') {
+      this.fornecedor = Object.assign({}, this.fornecedor, this.form.value);
+
+      this.fornecedoresService
+        .cadastrarFornecedor(this.fornecedor)
+        .subscribe(resp => {
+          Swal.fire({
+            title: 'Maravilha =)',
+            text: "Fornecedor cadastrado com sucesso.",
+            icon: 'success',
+            confirmButtonText: 'ENTENDI',
+            confirmButtonColor: '#25bcd2',
+            allowOutsideClick: false
+          }).then((result) => {
+            this.submitted = false;
+            this.form.reset();
+            this.router.navigate(['/fornecedores']);
+          });
+        })
+    }
   }
 
   get nome() {

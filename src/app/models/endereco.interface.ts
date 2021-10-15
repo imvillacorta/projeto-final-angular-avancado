@@ -1,10 +1,10 @@
 export interface Endereco {
     id: string;
     logradouro: string;
-    numero: boolean;
+    numero: number;
     complemento: string;
     bairo: string;
-    cep: number;
+    cep: string;
     cidade: string;
     estado: string;
     fornecedorID: string;

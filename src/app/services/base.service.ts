@@ -12,4 +12,15 @@ export abstract class BaseService {
             })
         }
     }
+
+    protected obterAuthHeaderJson() {
+        let token = JSON.parse(JSON.stringify(localStorage.getItem('token')));
+        return {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            })
+        }
+    }
+
 }

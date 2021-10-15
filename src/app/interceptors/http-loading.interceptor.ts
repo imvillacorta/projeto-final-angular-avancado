@@ -16,7 +16,19 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+        //SETA LOADING COMO TRUE PARA FICAR VISIVEL
         this.loaderService.isLoading.next(true);
+
+        //ALTERA HEADERS PASSANDO TOKEN VALIDO
+
+        // var user = JSON.parse(localStorage.getItem('user') || '{}');
+        // var token = JSON.parse(localStorage.getItem('token') || '{}');
+
+        // const headerAuth = req.clone({
+        //     headers: req.headers.set('authorization', (user && token) ? 'Bearer' + token : ''),
+        // });
+
+        // return next.handle(headerAuth);
 
         return next.handle(req).pipe(
 
@@ -65,7 +77,7 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
                                 else {
                                     textoErro = 'Ocorreu um erro inesperado';
                                 }
-                                
+
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Ops!',
