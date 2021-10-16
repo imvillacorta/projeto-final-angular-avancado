@@ -7,5 +7,5 @@ export interface Endereco {
     cep: string;
     cidade: string;
     estado: string;
-    fornecedorID: string;
+    fornecedorId: string;
 }

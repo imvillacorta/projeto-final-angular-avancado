@@ -3,6 +3,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgBrazilValidators } from 'ng-brazil';
+import { Endereco } from 'src/app/models/endereco.interface';
 import { EstadoBr } from 'src/app/models/estado-br.interface';
 import { Fornecedor } from 'src/app/models/fornecedor.interface';
 import { CepService } from 'src/app/services/cep.service';
@@ -25,6 +26,7 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
   submitted: boolean = false;
   estados: any = [];
   fornecedor!: Fornecedor;
+  fornecedorEndereco!: Endereco;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,22 +38,20 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-
-    this.verificarAcao();
     this.montarForm();
-
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.obterEstados();
+      this.verificarAcao();
     }, 0);
   }
 
   montarForm() {
     this.form = this.formBuilder.group({
       nome: ['', Validators.required],
-      tipoFornecedor: ['', Validators.required],
+      tipoFornecedor: [null, Validators.required],
       documento: ['', [Validators.required, NgBrazilValidators.cpf]],
       ativo: ['', Validators.required],
       endereco: this.formBuilder.group({
@@ -61,7 +61,7 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
         complemento: [''],
         bairro: ['', Validators.required],
         cidade: ['', Validators.required],
-        estado: ['', Validators.required]
+        estado: ['', Validators.required],
       })
     });
 
@@ -89,33 +89,71 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
       .subscribe((params) => {
         this.idFornecedor = params.get('id');
       });
+
   }
 
   verificarAcao() {
     if (this.router.url.split('/')[2] === 'editar') {
       this.isEdit = true;
       this.isReadOnly = false;
+      this.obterId();
+      this.obterFornecedor();
     }
     if (this.router.url.split('/')[2] === 'visualizar') {
       this.isEdit = false;
       this.isReadOnly = true;
+      this.obterId();
+      this.obterFornecedor();
+      this.bloquearCampos();
     }
   }
 
-  trocarValidacaoDocumento() {
+  obterFornecedor() {
+    this.fornecedoresService
+      .obterFornecedorPorId(this.idFornecedor)
+      .subscribe(fornecedor => {
+        this.preencherForm(fornecedor);
+      });
+  }
 
-    let tipoFornecedorSelecionado = this.form.controls.tipoFornecedor.value;
-    const pessoaFisica = '2';
-    const pessoaJuridica = '1';
+  preencherForm(fornecedor: any) {
+    this.form.patchValue({
+      id: fornecedor.id,
+      nome: fornecedor.nome,
+      tipoFornecedor: fornecedor.tipoFornecedor,
+      documento: fornecedor.documento,
+      ativo: fornecedor.ativo,
+      endereco: {
+        id: fornecedor.id,
+        cep: fornecedor.endereco.cep,
+        logradouro: fornecedor.endereco.logradouro,
+        numero: fornecedor.endereco.numero,
+        complemento: fornecedor.endereco.complemento,
+        bairro: fornecedor.endereco.bairro,
+        cidade: fornecedor.endereco.cidade,
+        estado: fornecedor.endereco.estado,
+        fornecedorId: fornecedor.id
+      }
+    });
+    this.trocarValidacaoDocumento(fornecedor.tipoFornecedor);
+  }
+
+  bloquearCampos() {
+    this.form.disable();
+  }
+
+  trocarValidacaoDocumento(tipoFornecedor: any) {
+    const pessoaFisica = 1;
+    const pessoaJuridica = 2;
 
     this.form.controls.documento.clearValidators();
 
-    if (tipoFornecedorSelecionado == pessoaFisica) {
+    if (tipoFornecedor == pessoaFisica) {
       this.form.controls.documento.setValidators([
         Validators.required, NgBrazilValidators.cpf
       ]);
     }
-    else if (tipoFornecedorSelecionado == pessoaJuridica) {
+    if (tipoFornecedor == pessoaJuridica) {
       this.form.controls.documento.setValidators([
         Validators.required, NgBrazilValidators.cnpj
       ]);
@@ -175,26 +213,70 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
   onSubmit() {
     this.submitted = true;
 
-    if (this.form.status == 'VALID') {
-      this.fornecedor = Object.assign({}, this.fornecedor, this.form.value);
+    if (this.isEdit) {
+      if (this.form.status == 'VALID') {
 
-      this.fornecedoresService
-        .cadastrarFornecedor(this.fornecedor)
-        .subscribe(resp => {
-          Swal.fire({
-            title: 'Maravilha =)',
-            text: "Fornecedor cadastrado com sucesso.",
-            icon: 'success',
-            confirmButtonText: 'ENTENDI',
-            confirmButtonColor: '#25bcd2',
-            allowOutsideClick: false
-          }).then((result) => {
-            this.submitted = false;
-            this.form.reset();
-            this.router.navigate(['/fornecedores']);
-          });
-        })
+        // MONTA OBJETO PARA ALTERAR DADOS BASICOS
+        this.fornecedor = Object.assign({}, this.fornecedor, this.form.value);
+        this.fornecedor.id = this.idFornecedor;
+        this.fornecedor.endereco.fornecedorId = this.idFornecedor;
+
+        // MONTA OBJETO PARA ALTERAR DADOS DE ENDEREÇO
+        this.fornecedorEndereco = Object.assign({}, this.fornecedorEndereco, this.form.controls.endereco.value);
+        this.fornecedorEndereco.id = this.idFornecedor;
+        this.fornecedorEndereco.fornecedorId = this.idFornecedor;
+
+        console.log(this.fornecedor);
+
+        // ATUALIZA DADOS BASICOS DO FORNECEDOR
+        this.fornecedoresService
+          .atualizarFornecedor(this.fornecedor)
+          .subscribe(resp => {
+            // ATUALIZA ENDEREÇO DO FORNECEDOR
+            this.fornecedoresService
+              .atualizarEndereco(this.fornecedorEndereco)
+              .subscribe(resp => {
+                Swal.fire({
+                  title: 'Maravilha =)',
+                  text: "Fornecedor alterado com sucesso.",
+                  icon: 'success',
+                  confirmButtonText: 'ENTENDI',
+                  confirmButtonColor: '#25bcd2',
+                  allowOutsideClick: false
+                }).then((result) => {
+                  this.submitted = false;
+                  this.form.reset();
+                  this.router.navigate(['/fornecedores']);
+                });
+              })
+          })
+      }
     }
+
+    else {
+      if (this.form.status == 'VALID') {
+        this.fornecedor = Object.assign({}, this.fornecedor, this.form.value);
+
+        this.fornecedoresService
+          .cadastrarFornecedor(this.fornecedor)
+          .subscribe(resp => {
+            Swal.fire({
+              title: 'Maravilha =)',
+              text: "Fornecedor cadastrado com sucesso.",
+              icon: 'success',
+              confirmButtonText: 'ENTENDI',
+              confirmButtonColor: '#25bcd2',
+              allowOutsideClick: false
+            }).then((result) => {
+              this.submitted = false;
+              this.form.reset();
+              this.router.navigate(['/fornecedores']);
+            });
+          })
+      }
+    }
+
+
   }
 
   get nome() {

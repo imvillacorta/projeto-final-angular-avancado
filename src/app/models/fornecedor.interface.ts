@@ -6,5 +6,6 @@ export interface Fornecedor {
     documento: string;
     ativo: boolean;
     tipoFornecedor: number;
+    fornecedorId: string;
     endereco: Endereco;
 }

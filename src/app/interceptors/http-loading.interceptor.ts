@@ -68,6 +68,16 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
                                     '/nao-encontrado'
                                 ])
                                 break;
+                            case 500:     //URL NÃO ENCONTRADA
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ops!',
+                                    text: "Desculpe, algo deu errado",
+                                    confirmButtonText: 'ENTENDI',
+                                    confirmButtonColor: '#25bcd2',
+                                    allowOutsideClick: false
+                                });
+                                break;
                             default:
                                 let textoErro = '';
 

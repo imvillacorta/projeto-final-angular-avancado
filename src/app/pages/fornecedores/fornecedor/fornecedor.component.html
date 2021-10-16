@@ -43,7 +43,7 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input"
                                    [class.is-invalid]="tipoFornecedor?.invalid && submitted"
-                                   (click)="trocarValidacaoDocumento()"
+                                   (click)="trocarValidacaoDocumento(1)"
                                    formControlName="tipoFornecedor"
                                    type="radio"
                                    name="tipoFornecedor"
@@ -57,7 +57,7 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input"
                                    [class.is-invalid]="tipoFornecedor?.invalid && submitted"
-                                   (click)="trocarValidacaoDocumento()"
+                                   (click)="trocarValidacaoDocumento(2)"
                                    formControlName="tipoFornecedor"
                                    type="radio"
                                    name="tipoFornecedor"
@@ -78,14 +78,14 @@
                 <div class="col-md-4 col-sm-12 mb-2">
                     <label for="documento"
                            class="form-label">
-                        {{ tipoFornecedor.value == '1' ? 'CPF' : 'CNPJ' }}
+                        {{ tipoFornecedor.value == 1 ? 'CPF' : 'CNPJ' }}
                     </label>
                     <input class="form-control form-control-sm"
                            [class.is-invalid]="documento?.invalid && (documento?.touched || submitted)"
                            formControlName="documento"
                            id="documento"
-                           placeholder="{{ tipoFornecedor.value == '1' ? '000.000.000-00' : '00.000.000/0000-00' }}"
-                           mask="{{ tipoFornecedor.value == '1' ? '000.000.000-00' : '00.000.000/0000-00' }}"
+                           placeholder="{{ tipoFornecedor.value == 1 ? '000.000.000-00' : '00.000.000/0000-00' }}"
+                           mask="{{ tipoFornecedor.value == 1 ? '000.000.000-00' : '00.000.000/0000-00' }}"
                            type="text">
                     <div *ngIf="documento?.invalid && (documento?.touched || submitted)">
                         <span *ngIf="documento?.errors?.required"
