@@ -10,10 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { NgBrazil } from 'ng-brazil';
+import { SafePipe } from 'src/app/utils/pipes/safe.pipe';
 @NgModule({
   declarations: [
     FornecedoresComponent,
-    FornecedorComponent
+    FornecedorComponent,
+    SafePipe
   ],
   imports: [
     CommonModule,

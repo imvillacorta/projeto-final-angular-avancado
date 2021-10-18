@@ -59,6 +59,8 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
                     else {
                         switch (error.status) {
                             case 401:      //FALHA NA AUTENTICAÇÃO
+                                localStorage.removeItem('user');
+                                localStorage.removeItem('token');
                                 this.router.navigate([
                                     '/autenticacao/login'
                                 ])

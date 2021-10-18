@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgBrazilValidators } from 'ng-brazil';
@@ -19,6 +20,7 @@ import Swal from 'sweetalert2';
 export class FornecedorComponent implements OnInit, AfterViewInit {
 
   idFornecedor: any = '';
+  idEndereco: any = '';
   isEdit: boolean = false;
   isReadOnly: boolean = false;
   form: any = FormGroup;
@@ -27,6 +29,8 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
   estados: any = [];
   fornecedor!: Fornecedor;
   fornecedorEndereco!: Endereco;
+  mapa: any = '';
+  keyGoogle = 'AIzaSyCxoV3NYWhmUzkOkfiYipUnIbR2jf_YA9Q';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,7 +38,8 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private fornecedoresService: FornecedoresService,
     private cepService: CepService,
-    private estadosService: EstadosService
+    private estadosService: EstadosService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -105,6 +110,7 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
       this.obterId();
       this.obterFornecedor();
       this.bloquearCampos();
+
     }
   }
 
@@ -113,6 +119,7 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
       .obterFornecedorPorId(this.idFornecedor)
       .subscribe(fornecedor => {
         this.preencherForm(fornecedor);
+        this.idEndereco = fornecedor.endereco.id;
       });
   }
 
@@ -124,7 +131,7 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
       documento: fornecedor.documento,
       ativo: fornecedor.ativo,
       endereco: {
-        id: fornecedor.id,
+        id: fornecedor.endereco.id,
         cep: fornecedor.endereco.cep,
         logradouro: fornecedor.endereco.logradouro,
         numero: fornecedor.endereco.numero,
@@ -136,6 +143,19 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
       }
     });
     this.trocarValidacaoDocumento(fornecedor.tipoFornecedor);
+
+    if (this.isReadOnly) {
+      this.montarMapa(fornecedor)
+    }
+  }
+
+  montarMapa(fornecedor: any) {
+    let endereco = fornecedor.endereco.logradouro + ', ' + fornecedor.endereco.numero + ', ' +
+      fornecedor.endereco.bairro + ', ' +
+      fornecedor.endereco.cidade + ', ' +
+      fornecedor.endereco.estado;
+
+    this.mapa = 'https://www.google.com/maps/embed/v1/place?key=' + this.keyGoogle + '&q=' + endereco;
   }
 
   bloquearCampos() {
@@ -223,7 +243,7 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
 
         // MONTA OBJETO PARA ALTERAR DADOS DE ENDEREÇO
         this.fornecedorEndereco = Object.assign({}, this.fornecedorEndereco, this.form.controls.endereco.value);
-        this.fornecedorEndereco.id = this.idFornecedor;
+        this.fornecedorEndereco.id = this.idEndereco;
         this.fornecedorEndereco.fornecedorId = this.idFornecedor;
 
         console.log(this.fornecedor);

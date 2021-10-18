@@ -262,12 +262,50 @@
             <div class="row mt-2">
                 <div class="col-md-12 col-sm-12 text-end">
                     <button class="btn btn-primary-custom btn-sm me-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalMapa"
+                            *ngIf="isReadOnly"
+                            type="button">Visualizar Fornecedor no Mapa</button>
+                    <button class="btn btn-primary-custom btn-sm me-2"
                             *ngIf="!isReadOnly">Confirmar</button>
                     <button class="btn btn-secondary btn-sm"
-                            routerLink="/fornecedores">Voltar</button>
+                            routerLink="/fornecedores"
+                            type="button">Voltar</button>
                 </div>
             </div>
 
         </div>
     </div>
 </form>
+
+<!-- MODAL DE MAPA -->
+<div class="modal fade"
+     id="modalMapa"
+     tabindex="-1"
+     aria-labelledby="modalMapaLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="modalMapaLabel">Localização do Fornecedor</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe [src]="mapa | safe"
+                        frameborder="0"
+                        height="450"
+                        style="border:0"
+                        width="100%"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary btn-sm"
+                        data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
