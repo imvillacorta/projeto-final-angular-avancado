@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgBrazilValidators } from 'ng-brazil';
@@ -38,8 +37,7 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private fornecedoresService: FornecedoresService,
     private cepService: CepService,
-    private estadosService: EstadosService,
-    private sanitizer: DomSanitizer
+    private estadosService: EstadosService
   ) { }
 
   ngOnInit(): void {

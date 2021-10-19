@@ -22,6 +22,12 @@ export class ProdutosService extends BaseService {
     );
   }
 
+  obterFornecedores() {
+    return this.http.get<any>(
+      this.urlApi + 'fornecedores', this.obterAuthHeaderJson()
+    );
+  }
+
   excluir(id: string) {
     return this.http.delete<any>(
       this.urlApi + 'produtos/' + id, this.obterAuthHeaderJson()
@@ -34,9 +40,9 @@ export class ProdutosService extends BaseService {
     );
   }
 
-  obterFornecedorPorId(id: string) {
+  obterProdutoPorId(id: string) {
     return this.http.get<any>(
-      this.urlApi + 'fornecedores/' + id, this.obterAuthHeaderJson()
+      this.urlApi + 'produtos/' + id, this.obterAuthHeaderJson()
     );
   }
 

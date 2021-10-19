@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthOffGuard } from 'src/app/guards/auth-off.guard';
 
+
+import { ProdutoComponent } from './produto/produto.component';
 import { ProdutosComponent } from './produtos.component';
 
 const routes: Routes = [
@@ -19,11 +22,36 @@ const routes: Routes = [
                         path: '',
                         component: ProdutosComponent,
                     },
-                    // {
-                    //     path: 'adicionar',
-                    //     component: PerfilAcessoComponent,
-                    //     canActivate: [AuthGuard]
-                    // }
+                    {
+                        path: 'adicionar',
+                        canActivate: [AuthOffGuard],
+                        component: ProdutoComponent,
+                        data: [
+                            {
+                                claim: {
+                                    nome: 'Produto',
+                                    valor: 'Adicionar'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        path: 'editar/:id',
+                        canActivate: [AuthOffGuard],
+                        component: ProdutoComponent,
+                        data: [
+                            {
+                                claim: {
+                                    nome: 'Produto',
+                                    valor: 'Atualizar'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        path: 'visualizar/:id',
+                        component: ProdutoComponent
+                    }
                 ]
             },
         ]

@@ -9,19 +9,25 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpLoadingInterceptor } from 'src/app/interceptors/http-loading.interceptor';
 
 import { NgxMaskModule } from 'ngx-mask';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 import { ProdutosComponent } from './produtos.component';
+import { ProdutoComponent } from './produto/produto.component';
+
+
 
 registerLocaleData(localePt);
 @NgModule({
   declarations: [
-    ProdutosComponent
+    ProdutosComponent,
+    ProdutoComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     ProdutosRoutingModule,
-    NgxMaskModule
+    CurrencyMaskModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     {

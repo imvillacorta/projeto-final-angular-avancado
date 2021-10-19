@@ -1,0 +1,156 @@
+<div class="content">
+    <h3>
+        {{
+        isReadOnly ? 'Visualizar Produto' :
+        isEdit ? 'Editar Produto' : 'Cadastrar Produto'
+        }}
+    </h3>
+</div>
+
+<form [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      autocomplete="off">
+    <div class="container-default">
+        <span>
+            {{
+            isReadOnly ? 'Detalhes do produto.' :
+            isEdit ? 'Altere os dados do produto nos campos abaixo.' : 'Preencha os campos abaixo para cadastrar um
+            produto.'
+            }}
+        </span>
+
+        <div class="mt-5">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 mb-2">
+                    <label class="form-label">Fornecedor</label>
+                    <select class="form-select form-select-sm"
+                            [class.is-invalid]="fornecedorId?.invalid && (fornecedorId?.touched || submitted)"
+                            formControlName="fornecedorId">
+                        <option value=""
+                                disabled
+                                selected>Selecione</option>
+                        <option *ngFor="let fornecedor of fornecedores"
+                                [value]="fornecedor.id"> {{ fornecedor.nome }}</option>
+                    </select>
+                    <div *ngIf="fornecedorId?.invalid && (fornecedorId?.touched || submitted)">
+                        <span *ngIf="fornecedorId?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 mb-2">
+                    <label for="nome"
+                           class="form-label">Nome</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="nome?.invalid && (nome?.touched || submitted)"
+                           formControlName="nome"
+                           id="nome"
+                           placeholder="Ex: Teclado Gamer"
+                           type="text">
+                    <div *ngIf="nome?.invalid && (nome?.touched || submitted)">
+                        <span *ngIf="nome?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 mb-2">
+                    <label for="descricao"
+                           class="form-label">Descrição</label>
+                    <textarea class="form-control form-control-sm"
+                              [class.is-invalid]="descricao?.invalid && (descricao?.touched || submitted)"
+                              formControlName="descricao"
+                              id="descricao"
+                              placeholder="Ex: Digite a descrição do produto..."
+                              rows="5">
+                    </textarea>
+                    <div *ngIf="descricao?.invalid && (descricao?.touched || submitted)">
+                        <span *ngIf="descricao?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12 mb-2">
+                    <label for="imagem"
+                           class="form-label">Imagem do Produto</label>
+                    <div class="input-group">
+                        <input type="file"
+                               class="form-control form-control-sm"
+                               [class.is-invalid]="imagem?.invalid && (submitted)"
+                               id="imagem"
+                               formControlName="imagem"
+                               aria-label="Upload">
+                    </div>
+                    <div *ngIf="imagem?.invalid && (submitted)">
+                        <span *ngIf="imagem?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 mb-2">
+                    <label for="valor"
+                           class="form-label">Valor</label>
+                    <input class="form-control form-control-sm"
+                           [class.is-invalid]="valor?.invalid && (valor?.touched || submitted)"
+                           formControlName="valor"
+                           id="valor"
+                           currencyMask
+                           [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
+                           placeholder="Ex: R$ 10,00"
+                           type="text">
+                    <div *ngIf="valor?.invalid && (valor?.touched || submitted)">
+                        <span *ngIf="valor?.errors?.required"
+                              class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 mb-2">
+                    <label class="form-label me-2">Ativar Produto?</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   [class.is-invalid]="ativo?.invalid && submitted"
+                                   formControlName="ativo"
+                                   type="radio"
+                                   name="ativo"
+                                   id="sim"
+                                   [value]="true">
+                            <label class="form-check-label"
+                                   for="sim">
+                                Sim
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   [class.is-invalid]="ativo?.invalid && submitted"
+                                   formControlName="ativo"
+                                   type="radio"
+                                   name="ativo"
+                                   id="nao"
+                                   [value]="false">
+                            <label class="form-check-label"
+                                   for="nao">
+                                Não
+                            </label>
+                        </div>
+                        <div *ngIf="ativo?.invalid && submitted">
+                            <span *ngIf="ativo?.errors?.required"
+                                  class="text-danger">Campo obrigatório</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-12 col-sm-12 text-end">
+                    <button class="btn btn-primary-custom btn-sm me-2"
+                            *ngIf="!isReadOnly">Confirmar</button>
+                    <button class="btn btn-secondary btn-sm"
+                            routerLink="/produtos"
+                            type="button">Voltar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
