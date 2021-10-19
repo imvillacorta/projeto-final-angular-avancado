@@ -57,11 +57,13 @@ export class FornecedoresComponent implements OnInit {
     let user = JSON.parse(localStorage.getItem('user') || '{}');
 
     let claimExcluir = user.claims.find((x: any) => x.type === 'Fornecedor');
-    if (!claimExcluir || claimExcluir.value !== 'Excluir') {
+    let claimsPermitidas = claimExcluir.value as string
+
+    if (!claimExcluir || !claimsPermitidas.includes('Excluir')) {
       this.router.navigate(['/nao-autorizado']);
     }
 
-    if (claimExcluir.value == 'Excluir') {
+    if (claimsPermitidas.includes('Excluir')) {
       this.excluir(id)
     }
 

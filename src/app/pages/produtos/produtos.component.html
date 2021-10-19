@@ -1,1 +1,66 @@
-<p>produtos works!</p>
+<div class="content d-flex justify-content-between">
+
+    <h3>Consultar Produtos</h3>
+    <button class="btn btn-primary-custom btn-sm"
+            routerLink="adicionar">
+        <i data-feather="plus"
+           class="icon"></i>
+        Cadastrar
+    </button>
+</div>
+
+<div class="container-default">
+    <span>
+        Gerencie os produtos cadastrados.
+    </span>
+
+    <div class="mt-5">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Fornecedor</th>
+                    <th>Valor</th>
+                    <th>Situação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let produto of produtos">
+                    <td>
+                        {{ produto.nome }}
+                    </td>
+                    <td>
+                        {{ produto.nomeFornecedor }}
+                    </td>
+                    <td>
+                        {{ produto.valor | currency }}
+                    </td>
+                    <td>
+                        {{ produto.ativo ? 'Ativo' : 'Inativo' }}
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm"
+                                (click)="visualizar(produto.id)"
+                                title="Visualizar">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm mx-2"
+                                (click)="editar(produto.id)"
+                                title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm"
+                                (click)="verificaPermissaoExcluir(produto.id)"
+                                title="Excluir">
+                            <i class="fas fa-trash-alt"></i>
+                            <i data-feather="trash-2"
+                               class="icon"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
