@@ -30,7 +30,8 @@
                         {{ fornecedor.nome }}
                     </td>
                     <td>
-                        {{ fornecedor.documento }}
+                        {{ fornecedor.tipoFornecedor == 1 ? (fornecedor.documento | mask: '000.000.000-00') :
+                        (fornecedor.documento | mask: '00.000.000/0000-00') }}
                     </td>
                     <td>
                         {{ fornecedor.ativo ? 'Ativo' : 'Inativo' }}
@@ -47,6 +48,7 @@
                             <i class="fas fa-edit"></i>
                         </button>
                         <button class="btn btn-danger btn-sm"
+                                (click)="verificaPermissaoExcluir(fornecedor.id)"
                                 title="Excluir">
                             <i class="fas fa-trash-alt"></i>
                             <i data-feather="trash-2"

@@ -22,6 +22,12 @@ export class FornecedoresService extends BaseService {
     );
   }
 
+  excluir(id: string) {
+    return this.http.delete<any>(
+      this.urlApi + 'fornecedores/' + id, this.obterAuthHeaderJson()
+    );
+  }
+
   cadastrarFornecedor(fornecedor: Fornecedor) {
     return this.http.post<Fornecedor>(
       this.urlApi + 'fornecedores', fornecedor, this.obterAuthHeaderJson()

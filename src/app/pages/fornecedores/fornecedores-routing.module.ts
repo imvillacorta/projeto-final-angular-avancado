@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { FornecedoresComponent } from './fornecedores.component';
 import { FornecedorComponent } from "./fornecedor/fornecedor.component";
+import { AuthOffGuard } from 'src/app/guards/auth-off.guard';
 
 const routes: Routes = [
     {
@@ -22,11 +23,29 @@ const routes: Routes = [
                     },
                     {
                         path: 'adicionar',
-                        component: FornecedorComponent
+                        canActivate: [AuthOffGuard],
+                        component: FornecedorComponent,
+                        data: [
+                            {
+                                claim: {
+                                    nome: 'Fornecedor',
+                                    valor: 'Adicionar'
+                                }
+                            }
+                        ]
                     },
                     {
                         path: 'editar/:id',
-                        component: FornecedorComponent
+                        canActivate: [AuthOffGuard],
+                        component: FornecedorComponent,
+                        data: [
+                            {
+                                claim: {
+                                    nome: 'Fornecedor',
+                                    valor: 'Atualizar'
+                                }
+                            }
+                        ]
                     },
                     {
                         path: 'visualizar/:id',

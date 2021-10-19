@@ -6,6 +6,7 @@ import { NaoEncontradoComponent } from './pages/erros/nao-encontrado/nao-encontr
 
 import { AuthGuard } from './guards/auth.guard';
 import { AuthOffGuard } from './guards/auth-off.guard';
+import { NaoAutorizadoComponent } from './pages/erros/nao-autorizado/nao-autorizado.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
       {
         path: 'nao-encontrado',
         component: NaoEncontradoComponent
+      },
+      {
+        path: 'nao-autorizado',
+        component: NaoAutorizadoComponent
       },
       {
         path: '**',

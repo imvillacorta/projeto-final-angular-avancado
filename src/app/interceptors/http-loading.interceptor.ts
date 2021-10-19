@@ -65,6 +65,11 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
                                     '/autenticacao/login'
                                 ])
                                 break;
+                                case 403:     //URL NÃO ENCONTRADA
+                                this.router.navigate([
+                                    '/nao-autorizado'
+                                ])
+                                break;
                             case 404:     //URL NÃO ENCONTRADA
                                 this.router.navigate([
                                     '/nao-encontrado'
