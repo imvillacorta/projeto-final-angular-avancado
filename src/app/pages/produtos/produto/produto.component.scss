@@ -1,0 +1,25 @@
+@import "../../../../scss/variables";
+
+.custom-dropzone {
+    border: 2px dashed $cinza-claro;
+    font-size: 10px;
+    justify-content: center;
+}
+
+.dropzone-invalid {
+    border: 2px dashed $vermelho;
+}
+
+.base-img {
+    border: 1px solid $cinza-claro;
+    border-radius: 0.2rem;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    img {
+        width: 120px;
+        height: 120px;
+    }
+}

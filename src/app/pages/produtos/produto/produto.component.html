@@ -54,7 +54,43 @@
             </div>
 
             <div class="row">
-                <div class="col-md-12 col-sm-12 mb-2">
+                <div class="col-md-2 col-sm-12 mb-2">
+                    <label for="imagem"
+                           class="form-label">Imagem do Produto</label>
+                    <div *ngIf="!imagemPreview"
+                         [accept]="'image/png, image/jpeg, image/jpg'"
+                         class="custom-dropzone"
+                         [class.dropzone-invalid]="this.files.length == 0 && submitted"
+                         (change)="onSelect($event)"
+                         [disabled]="isReadOnly"
+                         [maxFileSize]="1000000"
+                         ngx-dropzone>
+                        <ngx-dropzone-label>
+                            Arraste o seu arquivo aqui ou clique para selecionar uma imagem
+                        </ngx-dropzone-label>
+                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview"
+                                                    *ngFor="let f of files"
+                                                    [file]="f"
+                                                    [removable]="true"
+                                                    (removed)="onRemove(f)">
+                        </ngx-dropzone-image-preview>
+                    </div>
+
+                    <!-- PREVIEW IMG EDIT/VIEW -->
+                    <div class="base-img"
+                         *ngIf="imagemPreview">
+                        <img class="mb-2"
+                             src="{{imagens}}{{imgPrevia}}">
+                        <button class="btn btn-sm btn-danger"
+                                (click)="removerImg()"
+                                *ngIf="isEdit">Remover Imagem</button>
+                    </div>
+
+                    <div *ngIf="this.files.length == 0 && submitted">
+                        <span class="text-danger">Campo obrigatório</span>
+                    </div>
+                </div>
+                <div class="col-md-10 col-sm-12 mb-2">
                     <label for="descricao"
                            class="form-label">Descrição</label>
                     <textarea class="form-control form-control-sm"
@@ -62,7 +98,7 @@
                               formControlName="descricao"
                               id="descricao"
                               placeholder="Ex: Digite a descrição do produto..."
-                              rows="5">
+                              rows="8">
                     </textarea>
                     <div *ngIf="descricao?.invalid && (descricao?.touched || submitted)">
                         <span *ngIf="descricao?.errors?.required"
@@ -72,22 +108,6 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 col-sm-12 mb-2">
-                    <label for="imagem"
-                           class="form-label">Imagem do Produto</label>
-                    <div class="input-group">
-                        <input type="file"
-                               class="form-control form-control-sm"
-                               [class.is-invalid]="imagem?.invalid && (submitted)"
-                               id="imagem"
-                               formControlName="imagem"
-                               aria-label="Upload">
-                    </div>
-                    <div *ngIf="imagem?.invalid && (submitted)">
-                        <span *ngIf="imagem?.errors?.required"
-                              class="text-danger">Campo obrigatório</span>
-                    </div>
-                </div>
                 <div class="col-md-3 col-sm-12 mb-2">
                     <label for="valor"
                            class="form-label">Valor</label>

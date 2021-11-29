@@ -10,6 +10,7 @@ import { HttpLoadingInterceptor } from 'src/app/interceptors/http-loading.interc
 
 import { NgxMaskModule } from 'ngx-mask';
 import { CurrencyMaskModule } from "ng2-currency-mask";
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { ProdutosComponent } from './produtos.component';
 import { ProdutoComponent } from './produto/produto.component';
@@ -27,6 +28,7 @@ registerLocaleData(localePt);
     ReactiveFormsModule,
     ProdutosRoutingModule,
     CurrencyMaskModule,
+    NgxDropzoneModule,
     NgxMaskModule.forRoot()
   ],
   providers: [

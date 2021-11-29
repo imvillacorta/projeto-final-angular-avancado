@@ -244,8 +244,6 @@ export class FornecedorComponent implements OnInit, AfterViewInit {
         this.fornecedorEndereco.id = this.idEndereco;
         this.fornecedorEndereco.fornecedorId = this.idFornecedor;
 
-        console.log(this.fornecedor);
-
         // ATUALIZA DADOS BASICOS DO FORNECEDOR
         this.fornecedoresService
           .atualizarFornecedor(this.fornecedor)

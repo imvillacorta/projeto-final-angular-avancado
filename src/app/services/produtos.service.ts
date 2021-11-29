@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
 import { Fornecedor } from '../models/fornecedor.interface';
 import { Endereco } from '../models/endereco.interface';
+import { Produto } from '../models/produto.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -34,9 +35,9 @@ export class ProdutosService extends BaseService {
     );
   }
 
-  cadastrarFornecedor(fornecedor: Fornecedor) {
-    return this.http.post<Fornecedor>(
-      this.urlApi + 'fornecedores', fornecedor, this.obterAuthHeaderJson()
+  cadastrarProduto(produto: Produto) {
+    return this.http.post<Produto>(
+      this.urlApi + 'produtos', produto, this.obterAuthHeaderJson()
     );
   }
 
@@ -46,15 +47,9 @@ export class ProdutosService extends BaseService {
     );
   }
 
-  atualizarFornecedor(fornecedor: Fornecedor) {
+  atualizarProduto(produto: Produto) {
     return this.http.put<any>(
-      this.urlApi + 'fornecedores/' + fornecedor.id, fornecedor, this.obterAuthHeaderJson()
-    );
-  }
-
-  atualizarEndereco(endereco: Endereco) {
-    return this.http.put<any>(
-      this.urlApi + 'fornecedores/endereco/' + endereco.id, endereco, this.obterAuthHeaderJson()
+      this.urlApi + 'produtos/' + produto.id, produto, this.obterAuthHeaderJson()
     );
   }
 

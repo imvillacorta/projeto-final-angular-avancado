@@ -5,6 +5,7 @@ import { ProdutosService } from 'src/app/services/produtos.service';
 
 import * as Feather from 'feather-icons';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -15,7 +16,7 @@ import Swal from 'sweetalert2';
 export class ProdutosComponent implements OnInit {
 
   produtos: any = [];
-
+  
   constructor(
     private produtosService: ProdutosService,
     private router: Router
