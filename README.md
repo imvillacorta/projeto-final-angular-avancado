@@ -4,7 +4,7 @@ Este projeto foi gerado com as seguintes tecnologias.
 
 ![Tecnologias](src/assets/img/readme/tecnologias.png)
 
-Projeto prático do curso avançado de Angular ministrado pela instituição Desenvolvedor.io
+Projeto prático do curso avançado de Angular ministrado pela instituição [Desenvolvedor.io](https://desenvolvedor.io/curso-online-desenvolvimento-avancado-em-angular)
 
 O projeto consiste em realizar uma aplicação web para criar cruds de fornecedores e produtos, sendo que para isso é preciso realizar o login.
 
