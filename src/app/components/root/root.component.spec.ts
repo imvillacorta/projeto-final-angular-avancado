@@ -8,14 +8,18 @@ describe('RootComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RootComponent ]
+      declarations: [RootComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RootComponent);
     component = fixture.componentInstance;
+
+  });
+
+  it(`#${RootComponent.prototype.ngOnInit.name}`, () => {
     fixture.detectChanges();
   });
 });
