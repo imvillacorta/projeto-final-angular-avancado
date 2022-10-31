@@ -5,6 +5,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { MenuAcoesComponent } from './menu-acoes.component';
 
+const user = {
+  id: "00ea05d9-0549-4f5e-a647-53aeeead90de",
+  email: "teste23@teste.com",
+  claims: [
+    {
+      type: "Produto",
+      value: "Adicionar,Atualizar,Excluir"
+    }
+  ]
+}
+
 class ComponentTestRoute { }
 
 describe('MenuAcoesComponent', () => {
@@ -50,6 +61,13 @@ describe('MenuAcoesComponent', () => {
 
   it(`#${MenuAcoesComponent.prototype.verificaLogin.name} if user exist`, () => {
     // TODO: Desenvolver teste unitário
+
+    component.usuario = user;
+
+    component.verificaLogin();
+
+    // expect(component.usuario).toEqual({});
+
   });
 
   it(`#${MenuAcoesComponent.prototype.sair.name}`, () => {
